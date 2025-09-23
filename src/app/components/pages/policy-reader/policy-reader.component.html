@@ -3,23 +3,31 @@
 
     <input type="file" accept=".csv" (change)="readCSV($event)"/>
 
-    <table class="main-container__table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Policy #</th>
-                <th>Result</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (item of policyNumbers; track item.id) {
+    @if (fileErrorMsg) {
+        <div class="error-container">
+            {{fileErrorMsg}}
+        </div>
+    }
+
+    @if (policyNumbers) {
+        <table class="main-container__table">
+            <thead>
                 <tr>
-                    <td scope="col">{{item.id}}</td>
-                    <td scope="col">{{item.policyNumber}}</td>
-                    <td scope="col">{{item.valid}}</td>
+                    <th>ID</th>
+                    <th>Policy #</th>
+                    <th>Result</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @for (item of policyNumbers; track item.id) {
+                    <tr>
+                        <td scope="col">{{item.id}}</td>
+                        <td scope="col">{{item.policyNumber}}</td>
+                        <td scope="col">{{item.valid}}</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 
 </div>

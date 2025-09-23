@@ -19,3 +19,11 @@ tr:nth-of-type(even) {
 .main-container__table {
     margin-top: 40px;
 }
+
+.error-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: solid;
+    border-color: var(--color-tertiary);
+    border-radius: 8px;
+}
