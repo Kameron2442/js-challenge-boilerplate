@@ -48,3 +48,19 @@
   --color-neutral-700: #616161;
   --color-neutral-800: #3e3e3e;
 }
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.main-container {
+    padding: 24px;
+}
+
+.main-container--flex {
+    display: flex;               
+    justify-content: center;      
+    align-items: center;          
+    flex-direction: column;
+}

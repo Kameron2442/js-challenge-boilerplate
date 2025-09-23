@@ -1,1 +1,25 @@
-<p>policy-reader works!</p>
+<div class="main-container main-container--flex">
+    <h1>OCR File Upload</h1>
+
+    <input type="file" accept=".csv" (change)="readCSV($event)"/>
+
+    <table class="main-container__table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Policy #</th>
+                <th>Result</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (item of policyNumbers; track item.id) {
+                <tr>
+                    <td scope="col">{{item.id}}</td>
+                    <td scope="col">{{item.policyNumber}}</td>
+                    <td scope="col">{{item.valid}}</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
