@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject, Renderer2 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
     selector: 'app-nav-bar',
@@ -8,4 +9,17 @@ import { Component } from '@angular/core';
 })
 export class NavBarComponent {
 
+    private document = inject(DOCUMENT);
+    private renderer = inject(Renderer2);
+    protected showLightTheme: boolean = true;
+
+    protected flipTheme(): void {
+        this.showLightTheme = !this.showLightTheme;
+        this.showLightTheme ? this.setTheme('light') : this.setTheme('dark');
+    }
+
+    private setTheme(theme: string): void {
+        this.renderer.setAttribute(this.document.documentElement, 'data-theme', theme);
+    }
+    
 }

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavBarComponent } from "./components/core/nav-bar/nav-bar.component";
-import { FooterComponent } from "./components/core/footer/footer.component";
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -8,7 +7,7 @@ import { RouterOutlet } from '@angular/router';
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
     standalone: true,
-    imports: [NavBarComponent, FooterComponent, RouterOutlet]
+    imports: [NavBarComponent, RouterOutlet]
 })
 export class AppComponent {
   title = 'kin-ocr';

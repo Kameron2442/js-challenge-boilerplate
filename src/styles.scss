@@ -47,11 +47,40 @@
   --color-neutral-600: #757575;
   --color-neutral-700: #616161;
   --color-neutral-800: #3e3e3e;
+
+  --color-light-primary: var(--color-neutral-white);
+  --color-light-secondary: var(--color-secondary-200);
+  --color-light-tertiary: var(--color-tertiary-100);
+  --color-light-text: var(--color-neutral-black);
+  --color-light-background: var(--color-primary-100);
+    
+  --color-dark-primary: var(--color-neutral-black);
+  --color-dark-secondary: var(--color-secondary-700);
+  --color-dark-tertiary: var(--color-tertiary-600);
+  --color-dark-text: var(--color-neutral-white);
+  --color-dark-background: var(--color-neutral-800);
+    
+  color-scheme: dark;
+  --color-main-primary: light-dark(var(--color-light-primary), var(--color-dark-primary));
+  --color-main-secondary: light-dark(var(--color-light-secondary), var(--color-dark-secondary));
+  --color-main-tertiary: light-dark(var(--color-light-tertiary), var(--color-dark-tertiary));
+  --color-main-text: light-dark(var(--color-light-text), var(--color-dark-text));
+  --color-main-background: light-dark(var(--color-light-background), var(--color-dark-background));
+
+  &[data-theme='light'] {
+    color-scheme: light;
+  }
+  &[data-theme='dark'] {
+    color-scheme: dark;
+  }
+
 }
 
 body {
     margin: 0;
     font-family: Arial, sans-serif;
+    background-color: var(--color-main-background);
+    color: var(--color-main-text);
 }
 
 .main-container {
@@ -63,4 +92,31 @@ body {
     justify-content: center;      
     align-items: center;          
     flex-direction: column;
+}
+
+.main-container__description {
+    margin-top: 0;
+}
+
+.btn {
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    line-height: 1.2;
+    border-radius: 5px;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--color-neutral-black);
+    text-decoration: none;
+    background-color: var(--color-neutral-white);
+    box-shadow: 0 3px 1px -2px #0003, 0 2px 2px #00000024, 0 1px 5px #0000001f;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .btn:hover{
+        background-color: rgb(0,0,0,0.4);
+    }
 }
