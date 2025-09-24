@@ -85,6 +85,7 @@ body {
 
 .main-container {
     padding: 24px;
+    text-align: center;
 }
 
 .main-container--flex {
@@ -113,6 +114,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.btn--disabled {
+    background-color: rgb(160,160,160,1);
+    pointer-events: none;
+    cursor: progress;
 }
 
 @media (hover: hover) and (pointer: fine) {

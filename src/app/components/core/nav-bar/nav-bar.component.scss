@@ -24,6 +24,12 @@
     border-radius: 100px;
     margin-left: auto;
     cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.theme-button:focus {
+    border: 2px solid transparent;
+    border-color: var(--color-blue);
 }
 
 @media (hover: hover) and (pointer: fine) {

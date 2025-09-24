@@ -1,18 +1,33 @@
 <div class="main-container main-container--flex">
     <h1 class="main-container__title">OCR File Upload</h1>
-    <p class="main-container__description">Use the button below to upload a .csv file and view the results</p>
+    <p class="main-container__description">Use the button below to upload a .csv file and view the contents</p>
     <div class="total-files">Total files stored: {{policyStore.uploadCount()}}</div>
 
     <div class="file-upload">
-        <label for="fileUpload" class="btn">
+        <label 
+            #inputLabel 
+            for="fileUpload" 
+            class="btn" 
+            tabindex="0" 
+            role="button" 
+            (keyup.enter)="clickLabel()" 
+            (keyup.space)="clickLabel()" 
+            [class.btn--disabled]="policyStore.uploadProcessing()">
             <span class="file-upload__icon material-symbols-outlined">upload_file</span>
             Choose File
         </label>
-        <input type="file" accept=".csv" (change)="readCSV($event)" id="fileUpload" class="file-upload__input" (click)="clearSelection($event)"/>
+        <input 
+            id="fileUpload" 
+            class="file-upload__input" 
+            type="file" 
+            accept=".csv" 
+            aria-hidden="true"
+            (change)="readCSV($event)" 
+            (click)="clearSelection($event)"/>
     </div>
 
     @if (policyStore.uploadError()) {
-        <div class="error-container">
+        <div class="error-container" role="alert">
             <span class="error-msg__icon material-symbols-outlined">
                 error
             </span>
@@ -20,16 +35,17 @@
         </div>
     } @else if (policyStore.mostRecentUpload() && !policyStore.uploadProcessing()) {
         <table class="main-container__table">
+            <caption class="main-container__tableTitle">Processed table of CSV data</caption>
             <thead>
                 <tr>
-                    <th></th>
+                    <th>Count</th>
                     <th>Policy #</th>
                     <th>Result</th>
                 </tr>
             </thead>
             <tbody>
                 @for (item of policyStore.mostRecentUpload(); track item.id) {
-                    <tr>
+                    <tr class="policy-row">
                         <td scope="col">{{item.id}}</td>
                         <td scope="col">{{item.policyNumber}}</td>
                         <td scope="col">{{item.valid}}</td>

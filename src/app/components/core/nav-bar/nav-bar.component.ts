@@ -11,7 +11,7 @@ export class NavBarComponent {
 
     private document = inject(DOCUMENT);
     private renderer = inject(Renderer2);
-    protected showLightTheme: boolean = true;
+    protected showLightTheme: boolean = false;
 
     protected flipTheme(): void {
         this.showLightTheme = !this.showLightTheme;
