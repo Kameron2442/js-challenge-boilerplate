@@ -1,5 +1,5 @@
 export interface HomePolicy {
     id: number;
-    policyNumber: number;
-    valid: boolean;
+    policyNumber: string;
+    valid: string;
 }

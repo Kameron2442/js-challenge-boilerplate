@@ -30,7 +30,7 @@ tr:nth-of-type(even) {
     display: flex;
     align-items: center;
     justify-content: center;
-    max-width: 400px;
+    max-width: 370px;
 }
 
 .error-msg__icon {
@@ -50,4 +50,8 @@ tr:nth-of-type(even) {
 
 .file-upload__input {
     display: none;
+}
+
+.total-files {
+    margin-bottom: 1.5em;
 }

@@ -1,25 +1,24 @@
 <div class="main-container main-container--flex">
     <h1 class="main-container__title">OCR File Upload</h1>
     <p class="main-container__description">Use the button below to upload a .csv file and view the results</p>
+    <div class="total-files">Total files stored: {{policyStore.uploadCount()}}</div>
 
     <div class="file-upload">
         <label for="fileUpload" class="btn">
             <span class="file-upload__icon material-symbols-outlined">upload_file</span>
             Choose File
         </label>
-        <input type="file" accept=".csv" (change)="readCSV($event)" id="fileUpload" class="file-upload__input"/>
+        <input type="file" accept=".csv" (change)="readCSV($event)" id="fileUpload" class="file-upload__input" (click)="clearSelection($event)"/>
     </div>
 
-    @if (fileErrorMsg) {
+    @if (policyStore.uploadError()) {
         <div class="error-container">
             <span class="error-msg__icon material-symbols-outlined">
                 error
             </span>
-            {{fileErrorMsg}}
+            {{policyStore.uploadError()}}
         </div>
-    }
-
-    @if (policyNumbers) {
+    } @else if (policyStore.mostRecentUpload() && !policyStore.uploadProcessing()) {
         <table class="main-container__table">
             <thead>
                 <tr>
@@ -29,7 +28,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (item of policyNumbers; track item.id) {
+                @for (item of policyStore.mostRecentUpload(); track item.id) {
                     <tr>
                         <td scope="col">{{item.id}}</td>
                         <td scope="col">{{item.policyNumber}}</td>
