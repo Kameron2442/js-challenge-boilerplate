@@ -4,7 +4,7 @@ table {
 }
 
 thead {
-  background-color: rgb(228 240 245);
+  background-color: var(--color-main-secondary);
 }
 
 th, td {
@@ -13,7 +13,7 @@ th, td {
 }
 
 tr:nth-of-type(even) {
-  background-color: rgb(237 238 242);
+  background-color: var(--color-main-tertiary);
 }
 
 .main-container__table {
@@ -21,9 +21,33 @@ tr:nth-of-type(even) {
 }
 
 .error-container {
-    margin-top: 20px;
+    margin-top: 36px;
     padding: 20px;
     border: solid;
-    border-color: var(--color-tertiary);
+    border-color: var(--color-warning);
     border-radius: 8px;
+    border-width: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 400px;
+}
+
+.error-msg__icon {
+    margin-right: 12px;
+    margin-bottom: 2px;
+    font-size: 1.75em;
+}
+
+.file-upload {
+    margin-top: 1em;
+}
+
+.file-upload__icon {
+    margin-right: 8px;
+    margin-bottom: 2px;
+}
+
+.file-upload__input {
+    display: none;
 }

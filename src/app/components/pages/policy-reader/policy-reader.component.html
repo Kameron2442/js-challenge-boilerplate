@@ -1,10 +1,20 @@
 <div class="main-container main-container--flex">
-    <h1>OCR File Upload</h1>
+    <h1 class="main-container__title">OCR File Upload</h1>
+    <p class="main-container__description">Use the button below to upload a .csv file and view the results</p>
 
-    <input type="file" accept=".csv" (change)="readCSV($event)"/>
+    <div class="file-upload">
+        <label for="fileUpload" class="btn">
+            <span class="file-upload__icon material-symbols-outlined">upload_file</span>
+            Choose File
+        </label>
+        <input type="file" accept=".csv" (change)="readCSV($event)" id="fileUpload" class="file-upload__input"/>
+    </div>
 
     @if (fileErrorMsg) {
         <div class="error-container">
+            <span class="error-msg__icon material-symbols-outlined">
+                error
+            </span>
             {{fileErrorMsg}}
         </div>
     }
@@ -13,7 +23,7 @@
         <table class="main-container__table">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th></th>
                     <th>Policy #</th>
                     <th>Result</th>
                 </tr>
