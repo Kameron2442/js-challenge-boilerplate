@@ -1,15 +1,19 @@
 # KinOcr
 
 ## Instructions
+Run instructions:
+1. Install dependencies with: npm i
+2. Run the app with: npm start
 
-Your Kin recruiting contact should have sent you a set of instructions for this test.
+Run unit tests: 
+1. Run npm test
 
-## How to use this boilerplate
+## Callouts
+1. AC acomplished for Story-1 and Story-2
+2. Implmements a NgRx signal store to keep the page's state
+3. implmements a light and dark theme which uses the standard color palette (button in the top right of the nav bar)
 
-We are a Typescript-first shop and value your understanding of TS/JS over Angular. If you have never used Angular before, you can find the framework documentation here: https://angular.dev/overview.
-
-All of our applications are using the modern versions of Angular, so feel free to use [standalone components](https://angular.dev/essentials/components) and the [new control flow syntax](https://blog.angular.io/meet-angulars-new-control-flow-a02c6eee7843) to make it feel more like React, Vue or Svelt if that's what you are used to.
-
-Feel free to remove routing or upgrade any of the dependencies if you need to.
-
-Please use the `./sample.csv` file as input into your application.
+## Questions for the team
+1. It's great to see the latest version of angular being used at your company! What does the time split look like for tech debt vs new features?
+2. The job listing mentions building Web Components. If that's in relation to non-framework-specific Web Components then it would be interesting to hear more on their use in the company.
+3. What does an average day look like at the company? 

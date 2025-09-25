@@ -3,21 +3,21 @@ import { HomePolicy } from '../interfaces/policy';
 import { computed } from '@angular/core';
 
 type HomePolicyUploadsState = {
-  homePolicyUploads: HomePolicy[][];
-  uploadProcessing: boolean;
-  uploadError: string | null;
+    homePolicyUploads: HomePolicy[][];    // Stores history of all file uploads
+    uploadProcessing: boolean;            // Stores an indicator of when processing starts/ends. Can be used to show loading indicators.
+    uploadError: string | null;           // Stores an error from a failed file upload
 };
 
 const initialState: HomePolicyUploadsState = {
-  homePolicyUploads: [],
-  uploadProcessing: false,
-  uploadError: null
+    homePolicyUploads: [],
+    uploadProcessing: false,
+    uploadError: null
 };
 
 export const HomePolicyUploadsStore = signalStore(
     { providedIn: 'root' },
     withState(initialState),
-    withComputed(({homePolicyUploads}) => ({ //create computed signals
+    withComputed(({homePolicyUploads}) => ({
         uploadCount: computed(() => homePolicyUploads().length),
         mostRecentUpload: computed(() => homePolicyUploads()[0])
     })),
@@ -29,7 +29,7 @@ export const HomePolicyUploadsStore = signalStore(
             patchState(store, (state) => ({ uploadProcessing: true, uploadError: null }))
         },
         setUploadError(uploadErrorMsg: string): void {
-            patchState(store, (state) => ({ uploadError: uploadErrorMsg, uploadProcessing: false}))
+            patchState(store, (state) => ({ uploadProcessing: false, uploadError: uploadErrorMsg }))
         }
     }))
 );
