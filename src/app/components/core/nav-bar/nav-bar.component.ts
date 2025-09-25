@@ -14,11 +14,13 @@ export class NavBarComponent {
     private document = inject(DOCUMENT);
     private renderer = inject(Renderer2);
 
+    // Called by the nav bar theme change button
     public flipTheme(): void {
         this.showLightTheme.set(!this.showLightTheme());
         this.showLightTheme() ? this.setTheme('light') : this.setTheme('dark');
     }
 
+    // Helper function which applies the theme change
     private setTheme(theme: string): void {
         this.renderer.setAttribute(this.document.documentElement, 'data-theme', theme);
     }

@@ -9,7 +9,6 @@
 
 .nav-bar__title {
     font-size: 1.5rem;
-    line-height: 1;
     color: var(--color-main-text);
     text-decoration: none;
 }
@@ -28,7 +27,6 @@
 }
 
 .nav-bar__theme-button:focus {
-    border: 2px solid transparent;
     border-color: var(--color-blue);
 }
 
