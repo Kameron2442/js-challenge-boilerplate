@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { NavBarComponent } from './nav-bar.component';
+import { provideRouter } from '@angular/router';
 
 describe('NavBarComponent', () => {
     let component: NavBarComponent;
@@ -9,7 +9,8 @@ describe('NavBarComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [NavBarComponent]
+            imports: [NavBarComponent],
+            providers: [provideRouter([])]
         })
         .compileComponents();
 
@@ -23,9 +24,10 @@ describe('NavBarComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should have a title', () => {
+    it('should have a title that links to the home page', () => {
         const siteTitle = componentElement.querySelector('.nav-bar__title')!;
         expect(siteTitle.textContent).toEqual(`Kameron's Code Challenge`);
+        expect(siteTitle.getAttribute('href')).toEqual('/')
     });
 
     it('should flip the theme boolean when the theme button is clicked', () => {
@@ -36,5 +38,5 @@ describe('NavBarComponent', () => {
         themeButton.click();
         expect(component.showLightTheme()).toBeFalse();
     });
-    
+
 });
