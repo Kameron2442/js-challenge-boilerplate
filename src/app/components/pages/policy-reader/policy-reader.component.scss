@@ -1,15 +1,17 @@
 table {
-  border-collapse: collapse;
-  border: 2px solid grey;
+    border-collapse: collapse;
+    border: 2px solid grey;
+    width: 100%;
+    max-width: 600px;
 }
 
 thead {
-  background-color: var(--color-main-secondary);
+    background-color: var(--color-main-secondary);
 }
 
 th, td {
-  border: 1px solid rgb(150 150 150);
-  padding: 8px 10px;
+    border: 1px solid rgb(150 150 150);
+    padding: 8px 10px;
 }
 
 tr:nth-of-type(even) {
@@ -21,6 +23,7 @@ tr:nth-of-type(even) {
 }
 
 .error-container {
+    text-align: left;
     margin-top: 36px;
     padding: 20px;
     border: solid;

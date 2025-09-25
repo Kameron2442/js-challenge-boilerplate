@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { HomePolicy } from '../../../interfaces/policy';
 import { HomePolicyUploadsStore } from '../../../stores/home-policy-store';
 
@@ -8,35 +8,28 @@ import { HomePolicyUploadsStore } from '../../../stores/home-policy-store';
     templateUrl: './policy-reader.component.html',
     styleUrl: './policy-reader.component.scss'
 })
-export class PolicyReaderComponent implements OnInit {
+export class PolicyReaderComponent {
+    
+    @ViewChild('inputLabel') public inputLabel: ElementRef | undefined;
 
     public policyStore = inject(HomePolicyUploadsStore);
 
-    private readonly fileErrorMissingHeader = 'Your file is missing a PolicyNumber column. Please reupload your file with the column included.';
-    private readonly fileErrorMissingRows = 'Your file is missing data under the header row. Please reupload your file with the rows included.';
+    public reader = new FileReader();
+
     private readonly fileErrorFileEmpty = 'Your file is empty. Please reupload with data included.';
     private readonly fileErrorTooLarge = 'Your file is too large. Please reupload a file under 2MB.';
-    private readonly fileErrorUnknown = 'Your file has an unknown issue that prevents processing. Please open an incident ticket for resolution.';
+    private readonly fileErrorSupport = 'Your file has an issue that prevents processing. Please open an incident ticket for resolution.';
     private readonly maxFileSizeBytes: number = 2000000;
-    private readonly policyNumberHeader = 'PolicyNumber';
-    private reader = new FileReader();
 
-    ngOnInit(): void {
-        this.reader.onload = () => {
-            const text = this.reader.result as string;
-            const homePolicies: HomePolicy[] | null = this.parseCSV(text);
+    // Entry point after a csv file is first uploaded
+    public uploadCSV(event: Event): void {
 
-            if (homePolicies) {
-                this.policyStore.addFileUpload(homePolicies);
-            }
-        };
-
-        this.reader.onerror = () => {
-            this.policyStore.setUploadError(this.fileErrorUnknown);
+        // Prevent double submits
+        if(this.policyStore.uploadProcessing()){
+            return;
         }
-    }
-
-    readCSV(event: Event): void {
+        
+        // Set the state of the reader as in progress
         this.policyStore.startUploadProcessing();
 
         try {
@@ -48,61 +41,57 @@ export class PolicyReaderComponent implements OnInit {
                 return;
             }
 
+            this.setupReaderListeners();
             this.reader.readAsText(file);
         } catch {
-            this.policyStore.setUploadError(this.fileErrorUnknown);
+            this.policyStore.setUploadError(this.fileErrorSupport);
         }
     }
 
-    parseCSV(csvText: string): HomePolicy[] | null {
-        const lines = csvText.trim().split('\n');
-        const firstLine = lines.shift();
+    // Setup one time event listeners which will detach after one emission
+    private setupReaderListeners() {
+        // Successful file load
+        this.reader.addEventListener('load', () => {
+            const text = this.reader.result as string;
+            const homePolicies: HomePolicy[] | null = this.parseCSV(text);
 
-        if(this.csvHasErrors(firstLine, lines)){
+            if (homePolicies) {
+                console.log("script:: " + this.policyStore.uploadCount())
+                this.policyStore.addFileUpload(homePolicies);
+                console.log("script:: " + this.policyStore.uploadCount())
+            }
+        }, { once: true });
+
+        // Error on file load
+        this.reader.addEventListener('error', () => {
+            this.policyStore.setUploadError(this.fileErrorSupport);
+        }, { once: true });
+    }
+
+    // Read the contents of the csv file and turn the data into objects
+    private parseCSV(csvText: string): HomePolicy[] | null {
+        if (csvText === '') {
+            this.policyStore.setUploadError(this.fileErrorFileEmpty);
             return null;
         }
 
-        return lines.map(line => {
-            let rowData: string[] = line.split(',').map(cell => cell.trim());
+        const csvPolicyNumbers = csvText.trim().split(',');
 
-            let ids = Number(rowData[0]);
-            let policyNumbers = rowData[1];
-
+        return csvPolicyNumbers.map((line, index) => {
             let tempData: HomePolicy = {
-                id: ids,
-                policyNumber: policyNumbers,
-                valid: this.checkSum(policyNumbers)
+                id: index + 1,
+                policyNumber: line,
+                valid: this.checkSum(line)
             };
             return tempData;
         });
     }
 
-    csvHasErrors(firstLine: string | undefined, rows: string[]){
-        let hasError = false;
-
-        try {
-            if (firstLine === '') {
-                this.policyStore.setUploadError(this.fileErrorFileEmpty);
-                hasError = true;
-            } else if (!firstLine!.includes(this.policyNumberHeader)) {
-                this.policyStore.setUploadError(this.fileErrorMissingHeader);
-                hasError = true;
-            } else if (rows.length === 0) {
-                this.policyStore.setUploadError(this.fileErrorMissingRows);
-                hasError = true;
-            }
-        } catch {
-            this.policyStore.setUploadError(this.fileErrorUnknown);
-            hasError = true;
-        }
-
-        return hasError;
-    }
-
-    checkSum(policyNumber: string): string {
+    // Calculate the checksum for a policy number if possible
+    private checkSum(policyNumber: string): string {
         let convertedNumber = Number(policyNumber);
 
-        if(Number.isNaN(convertedNumber)){
+        if (Number.isNaN(convertedNumber)) {
             return 'Not a number';
         }
 
@@ -121,9 +110,14 @@ export class PolicyReaderComponent implements OnInit {
         }
     }
 
-
+    // Removes the previously selected input file so that its (change) event can always trigger
     public clearSelection($event: any) {
         $event.target.value = null;
+    }
+
+    // Allows for the enter and space keys to trigger an input file select
+    public clickLabel() {
+        this.inputLabel?.nativeElement.click();
     }
 
 }
