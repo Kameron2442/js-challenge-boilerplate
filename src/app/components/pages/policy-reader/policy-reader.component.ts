@@ -1,6 +1,7 @@
 import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { HomePolicy } from '../../../interfaces/policy';
 import { HomePolicyUploadsStore } from '../../../stores/home-policy-store';
+import { fromEvent, Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-policy-reader',
@@ -8,18 +9,36 @@ import { HomePolicyUploadsStore } from '../../../stores/home-policy-store';
     templateUrl: './policy-reader.component.html',
     styleUrl: './policy-reader.component.scss'
 })
-export class PolicyReaderComponent {
-    
+export class PolicyReaderComponent implements OnInit, OnDestroy {
+
     @ViewChild('inputLabel') public inputLabel: ElementRef | undefined;
 
     public policyStore = inject(HomePolicyUploadsStore);
 
     public reader = new FileReader();
-
+    private readerLoadSubscription!: Subscription;
+    private readerErrorSubscription!: Subscription;
     private readonly fileErrorFileEmpty = 'Your file is empty. Please reupload with data included.';
     private readonly fileErrorTooLarge = 'Your file is too large. Please reupload a file under 2MB.';
     private readonly fileErrorSupport = 'Your file has an issue that prevents processing. Please open an incident ticket for resolution.';
     private readonly maxFileSizeBytes: number = 2000000;
+
+    ngOnInit(): void {
+        this.readerLoadSubscription = fromEvent(this.reader, 'load').subscribe(() => {
+            const text = this.reader.result as string;
+            const homePolicies: HomePolicy[] | null = this.parseCSV(text);
+
+            if (homePolicies) {
+                console.log("script:: " + this.policyStore.uploadCount())
+                this.policyStore.addFileUpload(homePolicies);
+                console.log("script:: " + this.policyStore.uploadCount())
+            }
+        });
+
+        this.readerErrorSubscription = fromEvent(this.reader, 'error').subscribe(() => {
+            this.policyStore.setUploadError(this.fileErrorSupport);
+        });
+    }
 
     // Entry point after a csv file is first uploaded
     public uploadCSV(event: Event): void {
@@ -41,31 +60,10 @@ export class PolicyReaderComponent {
                 return;
             }
 
-            this.setupReaderListeners();
             this.reader.readAsText(file);
         } catch {
             this.policyStore.setUploadError(this.fileErrorSupport);
         }
-    }
-
-    // Setup one time event listeners which will detach after one emission
-    private setupReaderListeners() {
-        // Successful file load
-        this.reader.addEventListener('load', () => {
-            const text = this.reader.result as string;
-            const homePolicies: HomePolicy[] | null = this.parseCSV(text);
-
-            if (homePolicies) {
-                console.log("script:: " + this.policyStore.uploadCount())
-                this.policyStore.addFileUpload(homePolicies);
-                console.log("script:: " + this.policyStore.uploadCount())
-            }
-        }, { once: true });
-
-        // Error on file load
-        this.reader.addEventListener('error', () => {
-            this.policyStore.setUploadError(this.fileErrorSupport);
-        }, { once: true });
     }
 
     // Read the contents of the csv file and turn the data into objects
@@ -118,6 +116,11 @@ export class PolicyReaderComponent {
     // Allows for the enter and space keys to trigger an input file select
     public clickLabel() {
         this.inputLabel?.nativeElement.click();
+    }
+
+    ngOnDestroy(): void {
+        this.readerLoadSubscription.unsubscribe();
+        this.readerErrorSubscription.unsubscribe();
     }
 
 }
