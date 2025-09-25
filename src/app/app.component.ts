@@ -10,5 +10,5 @@ import { RouterOutlet } from '@angular/router';
     imports: [NavBarComponent, RouterOutlet]
 })
 export class AppComponent {
-  title = 'kin-ocr';
+    title = 'kin-ocr';
 }

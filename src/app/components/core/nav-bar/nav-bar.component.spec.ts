@@ -27,7 +27,7 @@ describe('NavBarComponent', () => {
     it('should have a title that links to the home page', () => {
         const siteTitle = componentElement.querySelector('.nav-bar__title')!;
         expect(siteTitle.textContent).toEqual(`Kameron's Code Challenge`);
-        expect(siteTitle.getAttribute('href')).toEqual('/')
+        expect(siteTitle.getAttribute('href')).toEqual('/');
     });
 
     it('should flip the theme boolean when the theme button is clicked', () => {
