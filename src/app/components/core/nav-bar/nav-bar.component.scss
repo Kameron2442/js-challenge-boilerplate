@@ -1,5 +1,4 @@
 .nav-bar {
-    width: calc(100% - 48px);
     height: 50px;
     background: var(--color-main-primary);
     box-shadow: 0 5px 5px -3px #0003, 0 8px 10px 1px #00000024, 0 3px 14px 2px #0000001f;
@@ -11,29 +10,30 @@
 .nav-bar__title {
     font-size: 1.5rem;
     line-height: 1;
+    color: var(--color-main-text);
+    text-decoration: none;
 }
 
-.theme-button {
+.nav-bar__theme-button {
     all: unset;
     width: 40px;
     height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
-    justify-content: center;
     border-radius: 100px;
     margin-left: auto;
     cursor: pointer;
     border: 2px solid transparent;
 }
 
-.theme-button:focus {
+.nav-bar__theme-button:focus {
     border: 2px solid transparent;
     border-color: var(--color-blue);
 }
 
 @media (hover: hover) and (pointer: fine) {
-    .theme-button:hover{
+    .nav-bar__theme-button:hover{
         background-color: rgb(0,0,0,0.4);
     }
 }
