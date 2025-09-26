@@ -22,11 +22,12 @@ export class PolicyReaderComponent implements OnInit, OnDestroy {
     private readonly fileErrorTooLarge = 'Your file is too large. Please reupload a file under 2MB.';
     private readonly fileErrorSupport = 'Your file has an issue that prevents processing. Please open an incident ticket for resolution.';
     private readonly maxFileSizeBytes: number = 2000000;
+    private readonly numberRegex = new RegExp(/^[0-9]+$/);
 
     ngOnInit(): void {
         this.readerLoadSubscription = fromEvent(this.reader, 'load').subscribe(() => {
             const text = this.reader.result as string;
-            const homePolicies: HomePolicy[] | null = this.parseCSV(text);
+            const homePolicies: HomePolicy[] | null = this.parseCsv(text);
 
             if (homePolicies) {
                 this.policyStore.addFileUpload(homePolicies);
@@ -39,7 +40,7 @@ export class PolicyReaderComponent implements OnInit, OnDestroy {
     }
 
     // Entry point after a csv file is first uploaded
-    public uploadCSV(event: Event): void {
+    public uploadCsv(event: Event): void {
 
         // Prevent double submits
         if(this.policyStore.uploadProcessing()){
@@ -65,7 +66,7 @@ export class PolicyReaderComponent implements OnInit, OnDestroy {
     }
 
     // Read the contents of the csv file and turn the data into objects
-    private parseCSV(csvText: string): HomePolicy[] | null {
+    private parseCsv(csvText: string): HomePolicy[] | null {
         if (csvText === '') {
             this.policyStore.setUploadError(this.fileErrorFileEmpty);
             return null;
@@ -73,46 +74,41 @@ export class PolicyReaderComponent implements OnInit, OnDestroy {
 
         const csvPolicyNumbers = csvText.trim().split(',');
 
-        return csvPolicyNumbers.map((line, index) => {
-            let tempData: HomePolicy = {
+        return csvPolicyNumbers.map((policyNumber, index) => {
+            let homePolicy: HomePolicy = {
                 id: index + 1,
-                policyNumber: line,
-                valid: this.checkSum(line)
+                policyNumber: policyNumber,
+                valid: this.checkSum(policyNumber)
             };
-            return tempData;
+            return homePolicy;
         });
     }
 
-    // Calculate the checksum for a policy number if possible
+    // Calculate the checksum for a policy number
     private checkSum(policyNumber: string): string {
-        let convertedNumber = Number(policyNumber);
-
-        if (Number.isNaN(convertedNumber)) {
+        if (!this.numberRegex.test(policyNumber) || Number.isNaN(Number(policyNumber))) {
             return 'Not a number';
         }
 
-        let chars: string[] = policyNumber.toString().split("");
+        const chars: string[] = policyNumber.split("");
         let totalLength = chars.length;
         let totalSum = 0;
-        chars.forEach((elem) => {
-            totalSum += Number(elem) * totalLength;
+        chars.forEach((numberItem) => {
+            totalSum += Number(numberItem) * totalLength;
             totalLength--;
         });
 
-        if (totalSum % 11 === 0) {
-            return 'Valid';
-        } else {
-            return 'Invalid';
-        }
+        return totalSum % 11 === 0 ? 'Valid' : 'Invalid';
     }
 
     // Removes the previously selected input file so that its (change) event can always trigger
-    public clearSelection($event: any) {
-        $event.target.value = null;
+    public clearSelection(event: Event): void {
+        const eventTarget = event.target as HTMLInputElement;
+        eventTarget.value = null!;
     }
 
     // Allows for the enter and space keys to trigger an input file select
-    public clickLabel() {
+    public clickLabel(): void {
         this.inputLabel?.nativeElement.click();
     }
 
