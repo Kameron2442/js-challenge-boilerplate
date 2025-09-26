@@ -36,17 +36,17 @@
             <caption class="csv-table__title">Processed CSV data table</caption>
             <thead>
                 <tr>
-                    <th>Count</th>
-                    <th>Policy #</th>
-                    <th>Result</th>
+                    <th scope="col">Count</th>
+                    <th scope="col">Policy #</th>
+                    <th scope="col">Result</th>
                 </tr>
             </thead>
             <tbody>
                 @for (item of policyStore.mostRecentUpload(); track item.id) {
                     <tr class="csv-table__rows">
-                        <td scope="col" class="csv-table__id">{{item.id}}</td>
-                        <td scope="col" class="csv-table__number">{{item.policyNumber}}</td>
-                        <td scope="col" class="csv-table__valid">{{item.valid}}</td>
+                        <td class="csv-table__id">{{item.id}}</td>
+                        <td class="csv-table__number">{{item.policyNumber}}</td>
+                        <td class="csv-table__valid">{{item.valid}}</td>
                     </tr>
                 }
             </tbody>
