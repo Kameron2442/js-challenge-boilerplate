@@ -18,11 +18,11 @@ tr:nth-of-type(even) {
   background-color: var(--color-main-tertiary);
 }
 
-.main-container__table {
+.csv-table {
     margin-top: 40px;
 }
 
-.error-container {
+.error-banner {
     text-align: left;
     margin-top: 36px;
     padding: 20px;
@@ -36,7 +36,7 @@ tr:nth-of-type(even) {
     max-width: 370px;
 }
 
-.error-msg__icon {
+.error-banner__icon {
     margin-right: 12px;
     margin-bottom: 2px;
     font-size: 1.75em;
@@ -55,11 +55,15 @@ tr:nth-of-type(even) {
     display: none;
 }
 
-.total-files {
+.main-container__description {
+    margin-top: 0;
+}
+
+.main-container__total-files {
     margin-bottom: 1.5em;
 }
 
-.main-container__tableTitle {
+.csv-table__title {
     font-size: 1.25em;
     margin-bottom: 1rem;
 }

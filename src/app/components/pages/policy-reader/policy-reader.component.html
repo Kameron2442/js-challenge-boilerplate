@@ -1,7 +1,7 @@
 <div class="main-container main-container--flex">
     <h1 class="main-container__title">OCR File Upload</h1>
     <p class="main-container__description">Use the button below to upload a .csv file and view the contents</p>
-    <div class="total-files">Total files stored: {{policyStore.uploadCount()}}</div>
+    <div class="main-container__total-files">Total files stored: {{policyStore.uploadCount()}}</div>
 
     <div class="file-upload">
         <label 
@@ -13,10 +13,10 @@
             (keyup.enter)="clickLabel()" 
             (keyup.space)="clickLabel()" 
             [class.btn--disabled]="policyStore.uploadProcessing()">
-            <span class="file-upload__icon material-symbols-outlined">upload_file</span>
+            <span class="file-upload__icon material-symbols-outlined" aria-hidden="true">upload_file</span>
             Choose File
         </label>
-        <input 
+        <input
             id="fileUpload" 
             class="file-upload__input" 
             type="file" 
@@ -27,15 +27,13 @@
     </div>
 
     @if (policyStore.uploadError()) {
-        <div class="error-container" role="alert">
-            <span class="error-msg__icon material-symbols-outlined">
-                error
-            </span>
+        <div class="error-banner" role="alert">
+            <span class="error-banner__icon material-symbols-outlined" aria-hidden="true">error</span>
             {{policyStore.uploadError()}}
         </div>
     } @else if (policyStore.mostRecentUpload() && !policyStore.uploadProcessing()) {
-        <table class="main-container__table">
-            <caption class="main-container__tableTitle">Processed table of CSV data</caption>
+        <table class="csv-table">
+            <caption class="csv-table__title">Processed CSV data table</caption>
             <thead>
                 <tr>
                     <th>Count</th>
@@ -45,10 +43,10 @@
             </thead>
             <tbody>
                 @for (item of policyStore.mostRecentUpload(); track item.id) {
-                    <tr class="policy-row">
-                        <td scope="col">{{item.id}}</td>
-                        <td scope="col">{{item.policyNumber}}</td>
-                        <td scope="col">{{item.valid}}</td>
+                    <tr class="csv-table__rows">
+                        <td scope="col" class="csv-table__id">{{item.id}}</td>
+                        <td scope="col" class="csv-table__number">{{item.policyNumber}}</td>
+                        <td scope="col" class="csv-table__valid">{{item.valid}}</td>
                     </tr>
                 }
             </tbody>

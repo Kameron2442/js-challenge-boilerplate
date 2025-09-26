@@ -29,9 +29,7 @@ export class PolicyReaderComponent implements OnInit, OnDestroy {
             const homePolicies: HomePolicy[] | null = this.parseCSV(text);
 
             if (homePolicies) {
-                console.log("script:: " + this.policyStore.uploadCount())
                 this.policyStore.addFileUpload(homePolicies);
-                console.log("script:: " + this.policyStore.uploadCount())
             }
         });
 
@@ -47,7 +45,7 @@ export class PolicyReaderComponent implements OnInit, OnDestroy {
         if(this.policyStore.uploadProcessing()){
             return;
         }
-        
+
         // Set the state of the reader as in progress
         this.policyStore.startUploadProcessing();
 
