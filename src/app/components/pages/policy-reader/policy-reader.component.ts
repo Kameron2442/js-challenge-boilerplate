@@ -1,5 +1,5 @@
 import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { HomePolicy } from '../../../interfaces/policy';
+import { HomePolicy, HomePolicyUpload } from '../../../interfaces/policy';
 import { HomePolicyUploadsStore } from '../../../stores/home-policy-store';
 import { fromEvent, Subscription } from 'rxjs';
 
@@ -12,6 +12,8 @@ import { fromEvent, Subscription } from 'rxjs';
 export class PolicyReaderComponent implements OnInit, OnDestroy {
 
     @ViewChild('inputLabel') public inputLabel: ElementRef | undefined;
+
+    @ViewChild('csvInput') public csvInput: ElementRef | undefined;
 
     public policyStore = inject(HomePolicyUploadsStore);
 
@@ -27,10 +29,12 @@ export class PolicyReaderComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.readerLoadSubscription = fromEvent(this.reader, 'load').subscribe(() => {
             const text = this.reader.result as string;
+            const fileName = this.csvInput?.nativeElement.files[0].name;
             const homePolicies: HomePolicy[] | null = this.parseCsv(text);
 
             if (homePolicies) {
-                this.policyStore.addFileUpload(homePolicies);
+                const homePolicyUpload: HomePolicyUpload = { homePolicies: homePolicies, fileName: fileName, id: this.policyStore.uploadCount() + 1 };
+                this.policyStore.addFileUpload(homePolicyUpload);
             }
         });
 

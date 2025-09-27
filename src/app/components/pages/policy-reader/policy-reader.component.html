@@ -1,7 +1,7 @@
 <div class="main-container main-container--flex">
     <h1 class="main-container__title">OCR File Upload</h1>
-    <p class="main-container__description">Use the button below to upload a .csv file and view the contents</p>
-    <div class="main-container__total-files">Total files stored: {{policyStore.uploadCount()}}</div>
+    <h2 class="main-container__description">Use the button below to upload a .csv file and view the contents</h2>
+    <p class="main-container__total-files">Total files stored: {{policyStore.uploadCount()}}</p>
 
     <div class="file-upload">
         <label 
@@ -14,9 +14,10 @@
             (keyup.space)="clickLabel()" 
             [class.btn--disabled]="policyStore.uploadProcessing()">
             <span class="file-upload__icon material-symbols-outlined" aria-hidden="true">upload_file</span>
-            Choose File
+            {{policyStore.uploadProcessing() ? 'Processing' : 'Choose File'}}
         </label>
         <input
+            #csvInput
             id="fileUpload" 
             class="file-upload__input" 
             type="file" 
@@ -31,9 +32,11 @@
             <span class="error-banner__icon material-symbols-outlined" aria-hidden="true">error</span>
             {{policyStore.uploadError()}}
         </div>
-    } @else if (policyStore.mostRecentUpload() && !policyStore.uploadProcessing()) {
+    } 
+
+    @for (item of policyStore.homePolicyUploads(); track item.id) {
         <table class="csv-table">
-            <caption class="csv-table__title">Processed CSV data table</caption>
+            <caption class="csv-table__title">File #{{item.id}}: CSV data table from {{item.fileName}}</caption>
             <thead>
                 <tr>
                     <th scope="col">Count</th>
@@ -42,7 +45,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (item of policyStore.mostRecentUpload(); track item.id) {
+                @for (item of item.homePolicies; track item.id) {
                     <tr class="csv-table__rows">
                         <td class="csv-table__id">{{item.id}}</td>
                         <td class="csv-table__number">{{item.policyNumber}}</td>
@@ -52,5 +55,6 @@
             </tbody>
         </table>
     }
+    
 
 </div>

@@ -84,12 +84,15 @@ body {
 }
 
 .main-container {
-    padding: 24px;
+    padding: 24px 24px 96px 24px;
     text-align: center;
 }
 
 .main-container__description {
     margin-top: 0;
+    margin-bottom: 1.5em;
+    font-size: 1rem;
+    font-weight: 400;
 }
 
 .main-container--flex {
