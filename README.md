@@ -41,17 +41,17 @@ Run in terminal "npm run test" to run unit tests.
 1. HomePolicyUploadsStore - This serves as the data store for file upload data in PolicyReaderComponent. (I'm calling each policy a HomePolicy. No specific reason for 'home' part. I just wanted an extra word to define what kind of policies are being looked at)
 
 ## Design decisions 
-**Data store using the NgRx signal store:**
+**1. Data store using the NgRx signal store:**
 
 Pros - This allows new components / pages to easily access uploaded file data without having to pass data component to component.
 
 Cons - NgRx has a required learning curve in order to use it properly and effectively.
 
-**PolicyReaderComponent has a dedicated error banner in the page:**
+**2. PolicyReaderComponent has a dedicated error banner in the page:**
 
 Pros - Allows dedicated error designs to be made directly in the component's template easily.
 
-Cons - Prevents the app from having standardized error alerts. If more pages are added then a generic popup error modal would be better to implement as it could be shared across the app.
+Cons - Prevents the app from having standardized error alerts. If more pages are added then a generic popup error dialog would be better to implement as it could be shared across the app.
 
 ## Future improvements
 1. Research more on the best accessibility solution when dealing with a styled file input. Currently using a label as a trigger, however there are other options.
