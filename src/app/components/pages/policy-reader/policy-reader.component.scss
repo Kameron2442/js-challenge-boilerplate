@@ -62,3 +62,18 @@
         background-color: var(--color-main-tertiary);
     }
 }
+
+.enter-animation {
+  animation: slide-fade 1s;
+}
+
+@keyframes slide-fade {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

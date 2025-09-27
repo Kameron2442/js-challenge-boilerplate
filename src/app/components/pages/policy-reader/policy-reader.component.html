@@ -28,33 +28,35 @@
     </div>
 
     @if (policyStore.uploadError()) {
-        <div class="error-banner" role="alert">
+        <div class="error-banner" role="alert" animate.enter="enter-animation">
             <span class="error-banner__icon material-symbols-outlined" aria-hidden="true">error</span>
             {{policyStore.uploadError()}}
         </div>
     } 
 
-    @for (item of policyStore.homePolicyUploads(); track item.id) {
-        <table class="csv-table">
-            <caption class="csv-table__title">File #{{item.id}}: CSV data table from {{item.fileName}}</caption>
-            <thead>
-                <tr>
-                    <th scope="col">Count</th>
-                    <th scope="col">Policy #</th>
-                    <th scope="col">Result</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (item of item.homePolicies; track item.id) {
-                    <tr class="csv-table__rows">
-                        <td class="csv-table__id">{{item.id}}</td>
-                        <td class="csv-table__number">{{item.policyNumber}}</td>
-                        <td class="csv-table__valid">{{item.valid}}</td>
+    <div aria-live="polite">
+        @for (item of policyStore.homePolicyUploads(); track item.id) {
+            <table class="csv-table" animate.enter="enter-animation">
+                <caption class="csv-table__title">File #{{item.id}}: CSV data table from {{item.fileName}}</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Count</th>
+                        <th scope="col">Policy #</th>
+                        <th scope="col">Result</th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    }
+                </thead>
+                <tbody>
+                    @for (item of item.homePolicies; track item.id) {
+                        <tr class="csv-table__rows">
+                            <td class="csv-table__id">{{item.id}}</td>
+                            <td class="csv-table__number">{{item.policyNumber}}</td>
+                            <td class="csv-table__valid">{{item.valid}}</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
     
 
 </div>
