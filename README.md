@@ -6,7 +6,7 @@ Steps for use:
 2. Locate the hosted url http://localhost:4200/
 3. The home page will show a button with text "Choose File"
 4. Click it, and select your file which came from the ingenious machine.
-5. Below the button will display sucessful file uploads and errors if they arise.
+5. Below the button will display successful file uploads and errors if they arise.
 
 This app assumes to following:
 1. The Ingenious machine's .csv output format remains constant. For example, no file headers.
@@ -18,30 +18,34 @@ Run in terminal: "npm i"
 ## Running
 Run in terminal: "npm run start"
 
+Note: This was developed against 
+npm version = 10.9.0
+node version = 22.12.0
+
 ## Testing
 Run in terminal: "npm run test"
 
 ## Callouts
-1. AC acomplished for Story-1 and Story-2
-2. Implmements a NgRx signal store to keep the page's state
-3. Implmements a light and dark theme which uses the standard color palette (button in the top right of the nav bar)
+1. AC accomplished for Story-1 and Story-2
+2. Implements a NgRx signal store to keep the page's state
+3. Implements a light and dark theme which uses the standard color palette (button in the top right of the nav bar)
 4. Implemments Angular animations during file uploads
 
 ## Future improvements
 1. Research more on the best accessibility solution when dealing with a file input. Currently using a label as a trigger, however there are other options.
-2. Trigger the error in a unit test
+2. Write a unit test that covers the 'error' event from the FileReader in policy-reader.component.ts. Experience difficulties while mocking.
 
 ## Components
-1. NavBarComponent - This is site-wide navigation bar which includes a light/dark theme changer.
+1. NavBarComponent - Site-wide navigation bar which includes a light/dark theme changer.
 2. PolicyReaderComponent - Serves User-Story-1 & User-Story-2 to allow the user to upload/view csv files from the ingenious machine.
 
 ## Data store
 1. HomePolicyUploadsStore - This serves as the data store for file uploads in PolicyReaderComponent.
 
-# Solution descisions 
+## Design decisions 
 Data store using the NgRx signal store:
 Pros - This allows new components / pages to easily access uploaded file data without having to pass data component to component.
-Cons - NgRx has a required learning curve in order to use it properly and effectivly.
+Cons - NgRx has a required learning curve in order to use it properly and effectively.
 
 PolicyReaderComponent has a dedicated error banner in the page:
 Pros - Allows dedicated error designs to be made directly in the component's template easily.
