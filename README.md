@@ -13,7 +13,7 @@ This app assumes to following:
 2. The .csv files uploaded always come from the Ingenious machine
 
 ## Installation
-Run in terminal: "npm i"
+Run in terminal "npm i" to install dependencies.
 
 ***This was developed against:***
 
@@ -22,10 +22,10 @@ npm version = 10.9.0
 node version = 22.12.0
 
 ## Running
-Run in terminal: "npm run start"
+Run in terminal "npm run start" to run the app.
 
 ## Testing
-Run in terminal: "npm run test"
+Run in terminal "npm run test" to run unit tests.
 
 ## Callouts
 1. AC accomplished for Story-1 and Story-2
@@ -41,14 +41,13 @@ Run in terminal: "npm run test"
 1. HomePolicyUploadsStore - This serves as the data store for file upload data in PolicyReaderComponent. (I'm calling each policy a HomePolicy. No specific reason for 'home' part. I just wanted an extra word to define what kind of policies are being looked at)
 
 ## Design decisions 
-Data store using the NgRx signal store:
+**Data store using the NgRx signal store:**
 
 Pros - This allows new components / pages to easily access uploaded file data without having to pass data component to component.
 
 Cons - NgRx has a required learning curve in order to use it properly and effectively.
 
-
-PolicyReaderComponent has a dedicated error banner in the page:
+**PolicyReaderComponent has a dedicated error banner in the page:**
 
 Pros - Allows dedicated error designs to be made directly in the component's template easily.
 
