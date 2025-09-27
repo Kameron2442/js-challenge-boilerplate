@@ -15,8 +15,10 @@ This app assumes to following:
 ## Installation
 Run in terminal: "npm i"
 
-Note: This was developed against 
+***This was developed against:***
+
 npm version = 10.9.0
+
 node version = 22.12.0
 
 ## Running
@@ -31,25 +33,30 @@ Run in terminal: "npm run test"
 3. Implements a light and dark theme which uses the standard color palette (button in the top right of the nav bar)
 4. Implemments Angular animations during file uploads
 
-## Future improvements
-1. Research more on the best accessibility solution when dealing with a file input. Currently using a label as a trigger, however there are other options.
-2. Write a unit test that covers the 'error' event from the FileReader in policy-reader.component.ts. Experience difficulties while mocking.
-
 ## Components
 1. NavBarComponent - Site-wide navigation bar which includes a light/dark theme changer.
 2. PolicyReaderComponent - Serves User-Story-1 & User-Story-2 to allow the user to upload/view csv files from the ingenious machine.
 
 ## Data store
-1. HomePolicyUploadsStore - This serves as the data store for file uploads in PolicyReaderComponent.
+1. HomePolicyUploadsStore - This serves as the data store for file upload data in PolicyReaderComponent. (I'm calling each policy a HomePolicy. No specific reason for 'home' part. I just wanted an extra word to define what kind of policies are being looked at)
 
 ## Design decisions 
 Data store using the NgRx signal store:
+
 Pros - This allows new components / pages to easily access uploaded file data without having to pass data component to component.
+
 Cons - NgRx has a required learning curve in order to use it properly and effectively.
 
+
 PolicyReaderComponent has a dedicated error banner in the page:
+
 Pros - Allows dedicated error designs to be made directly in the component's template easily.
+
 Cons - Prevents the app from having standardized error alerts. If more pages are added then a generic popup error modal would be better to implement as it could be shared across the app.
+
+## Future improvements
+1. Research more on the best accessibility solution when dealing with a styled file input. Currently using a label as a trigger, however there are other options.
+2. Write a unit test that covers the 'error' event from the FileReader in policy-reader.component.ts. Experience difficulties while mocking.
 
 ## Questions for the team
 1. It's great to see the latest version of angular being used at your company! What does the time split look like for tech debt vs new features?
