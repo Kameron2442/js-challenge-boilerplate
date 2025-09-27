@@ -15,12 +15,12 @@ This app assumes to following:
 ## Installation
 Run in terminal: "npm i"
 
-## Running
-Run in terminal: "npm run start"
-
 Note: This was developed against 
 npm version = 10.9.0
 node version = 22.12.0
+
+## Running
+Run in terminal: "npm run start"
 
 ## Testing
 Run in terminal: "npm run test"
